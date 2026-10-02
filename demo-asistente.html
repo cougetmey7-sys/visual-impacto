@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="es-AR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Demo: Asistente virtual | Visual Impacto</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@500;700;800&family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0A1128;--surface:#121C3A;--surface2:#18244A;--ink:#F4F6FB;--muted:#AEB8D3;--brand:#FF6A2B;--brand-ink:#0A1128;--sun:#FFD166;--line:#25325C;--chip:#1C2A55;
+  box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--bg:#0A1128}}
+:root[data-theme="dark"]{--bg:#0A1128}
+*,*::before,*::after{box-sizing:inherit}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Figtree",system-ui,-apple-system,"Segoe UI",sans-serif;font-size:1.03rem;line-height:1.5}
+h1,h2,h3{font-family:"Sora","Figtree",system-ui,sans-serif;margin:0;letter-spacing:-.02em;line-height:1.15}
+p{margin:0}
+button,input{font-family:inherit;font-size:1rem}
+:focus-visible{outline:3px solid var(--sun);outline-offset:2px;border-radius:8px}
+.wrap{max-width:1040px;margin:0 auto;padding:0 1.1rem}
+.top{display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:1rem 0;border-bottom:1px solid var(--line)}
+.top a{color:var(--muted);text-decoration:none;font-size:.95rem}
+.top a:hover{color:var(--ink)}
+.brand{font-family:"Sora",sans-serif;font-weight:800;font-size:1.15rem}
+.badge{background:var(--sun);color:var(--brand-ink);font-weight:700;font-size:.8rem;padding:.15rem .6rem;border-radius:999px;margin-left:.5rem;vertical-align:middle}
+.intro{padding:2.2rem 0 1.4rem}
+.intro h1{font-size:clamp(1.8rem,4.5vw,2.6rem);font-weight:800}
+.intro p{color:var(--muted);margin-top:.6rem;max-width:58ch}
+.layout{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);gap:1.4rem;align-items:start}
+@media (max-width:820px){.layout{grid-template-columns:1fr}}
+.chat{background:var(--surface);border:1px solid var(--line);border-radius:22px;overflow:hidden;display:flex;flex-direction:column;height:600px;max-height:78vh}
+.chead{display:flex;align-items:center;gap:.8rem;padding:1rem 1.2rem;background:var(--surface2);border-bottom:1px solid var(--line)}
+.av{width:44px;height:44px;border-radius:50%;background:var(--brand);color:var(--brand-ink);display:grid;place-items:center;font-family:"Sora",sans-serif;font-weight:800;flex:none}
+.chead strong{display:block}
+.chead small{color:#3DDC97;font-weight:600}
+.msgs{flex:1;overflow-y:auto;padding:1.2rem;display:flex;flex-direction:column;gap:.6rem}
+.m{max-width:82%;padding:.7rem .95rem;border-radius:18px;white-space:pre-line;line-height:1.45}
+.bot{background:var(--surface2);align-self:flex-start;border-bottom-left-radius:6px}
+.me{background:var(--brand);color:var(--brand-ink);align-self:flex-end;border-bottom-right-radius:6px;font-weight:500}
+.typing{display:inline-flex;gap:4px}
+.typing i{width:7px;height:7px;border-radius:50%;background:var(--muted);animation:b 1s infinite}
+.typing i:nth-child(2){animation-delay:.15s}.typing i:nth-child(3){animation-delay:.3s}
+@keyframes b{0%,60%,100%{opacity:.3}30%{opacity:1}}
+@media (prefers-reduced-motion:reduce){.typing i{animation:none}}
+.chips{display:flex;gap:.45rem;overflow-x:auto;padding:.6rem 1rem 0}
+.chip{flex:none;min-height:40px;padding:.4rem .9rem;border-radius:999px;border:1.5px solid var(--line);background:transparent;color:var(--ink);cursor:pointer;font-size:.93rem}
+.chip:hover{border-color:var(--brand)}
+form{display:flex;gap:.5rem;padding:.8rem 1rem 1rem}
+form input{flex:1;min-width:0;min-height:48px;padding:.7rem 1rem;border-radius:999px;border:1.5px solid var(--line);background:var(--surface2);color:var(--ink)}
+.send{width:48px;height:48px;border-radius:50%;border:0;background:var(--brand);color:var(--brand-ink);cursor:pointer;display:grid;place-items:center;flex:none}
+.side{background:var(--surface);border:1px solid var(--line);border-radius:22px;padding:1.4rem}
+.side h2{font-size:1.2rem;margin-bottom:.4rem}
+.side p{color:var(--muted);font-size:.97rem}
+.side ul{margin:.9rem 0 0;padding-left:1.1rem;display:grid;gap:.4rem}
+.side .rule{margin-top:1.2rem;padding:.9rem 1rem;border-radius:14px;background:rgba(255,209,102,.1);border:1px solid var(--sun);color:var(--sun);font-size:.95rem}
+.cta{margin:2.5rem 0 3rem;background:var(--brand);color:var(--brand-ink);border-radius:22px;padding:1.8rem;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:1rem}
+.cta h3{font-size:1.4rem}
+.cta p{margin-top:.3rem}
+.btn{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:.7rem 1.3rem;border-radius:999px;font-weight:700;text-decoration:none;background:var(--brand-ink);color:var(--brand)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top">
+    <span><span class="brand">Visual Impacto</span><span class="badge">Demo</span></span>
+    <a href="index.html">Volver a Visual Impacto</a>
+  </div>
+
+  <div class="intro">
+    <h1>Asistente virtual para tu negocio</h1>
+    <p>Hacele preguntas como si fueras un cliente de esta ferretería de ejemplo: precios, horarios, formas de pago o envíos. Responde al instante, a cualquier hora.</p>
+  </div>
+
+  <div class="layout">
+    <div class="chat">
+      <div class="chead"><div class="av">F</div><div><strong>Ferretería Ejemplo</strong><small>En línea</small></div></div>
+      <div class="msgs" id="msgs" aria-live="polite"></div>
+      <div class="chips" id="chips"></div>
+      <form id="form" autocomplete="off">
+        <label for="q" style="position:absolute;left:-9999px">Escribí tu pregunta</label>
+        <input id="q" type="text" placeholder="Escribí tu pregunta…">
+        <button class="send" type="submit" aria-label="Enviar"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+      </form>
+    </div>
+
+    <aside class="side">
+      <h2>Qué sabe este asistente</h2>
+      <p>Solo responde con la información que el dueño del negocio le carga:</p>
+      <ul>
+        <li>Horarios y dirección</li>
+        <li>Precios de productos</li>
+        <li>Formas de pago</li>
+        <li>Envíos y retiros</li>
+      </ul>
+      <p class="rule">Si le preguntan algo que no tiene cargado, no inventa: avisa y deriva la consulta a una persona.</p>
+    </aside>
+  </div>
+
+  <div class="cta">
+    <div><h3>¿Querés un asistente así para tu negocio?</h3><p>Lo configuro con tus productos, precios y forma de atender.</p></div>
+    <a class="btn" href="https://wa.me/5493541600329?text=Hola%20Mey!%20Vi%20la%20demo%20del%20asistente%20virtual%20y%20me%20interesa%20para%20mi%20negocio." target="_blank" rel="noopener">Quiero esto para mi negocio</a>
+  </div>
+</div>
+
+<script>
+(function(){
+  var money=function(v){return "$"+v.toLocaleString("es-AR")};
+  var norm=function(t){return t.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"")};
+  var PRODUCTS=[
+    {n:"Pintura látex blanca 20 L",k:["pintura","latex"],p:68000},
+    {n:"Taladro percutor 650 W",k:["taladro"],p:85000},
+    {n:"Caja de tornillos x 100",k:["tornillo"],p:4500},
+    {n:"Cemento 25 kg",k:["cemento"],p:9800},
+    {n:"Cinta métrica 5 m",k:["cinta","metro"],p:6200},
+    {n:"Pinza universal",k:["pinza"],p:7400}
+  ];
+  var INTENTS=[
+    {k:["hola","buenas","buen dia","buenas tardes"],a:"¡Hola! Soy el asistente de Ferretería Ejemplo. ¿En qué te ayudo? Podés preguntarme precios, horarios, formas de pago o envíos."},
+    {k:["horario","abren","abierto","cierran","atienden","hora"],a:"Atendemos de lunes a viernes de 8 a 13 y de 16 a 20, y los sábados de 8 a 13."},
+    {k:["donde","direccion","ubicad","queda","local"],a:"Estamos en Av. Siempre Viva 123, a media cuadra de la plaza. (Es una demo: la dirección es inventada.)"},
+    {k:["pago","pagar","tarjeta","transferencia","efectivo","cuotas","mercado pago"],a:"Podés pagar en efectivo, por transferencia o Mercado Pago, y con tarjeta de débito o crédito. Con crédito hay 3 cuotas sin interés."},
+    {k:["envio","envian","domicilio","llevan","retiro","retirar"],a:"Hacemos envíos dentro de la ciudad de lunes a viernes. Si comprás antes de las 12, te llega en el día. También podés retirar en el local."},
+    {k:["gracias","genial","perfecto","buenisimo"],a:"¡De nada! Si necesitás algo más, escribime cuando quieras."}
+  ];
+  var msgs=document.getElementById("msgs");
+  function add(text,who){var d=document.createElement("div");d.className="m "+who;d.textContent=text;msgs.appendChild(d);msgs.scrollTop=msgs.scrollHeight}
+  function answer(q){
+    var t=norm(q);
+    var found=PRODUCTS.filter(function(p){return p.k.some(function(k){return t.indexOf(k)>-1})});
+    if(found.length){
+      return found.map(function(p){return p.n+": "+money(p.p)}).join("\n")+"\n\n¿Querés que te lo reserve para retirar?";
+    }
+    if(/precio|cuanto|sale|cuesta|lista|productos/.test(t)){
+      return "Estos son algunos de nuestros productos:\n"+PRODUCTS.map(function(p){return p.n+": "+money(p.p)}).join("\n")+"\n\nPreguntame por el que necesites.";
+    }
+    if(/reserv|si,|^si$|dale/.test(t)){
+      return "¡Listo! Para reservarlo te paso con una persona del local, que te confirma el stock. (En la demo no se envía nada.)";
+    }
+    for(var i=0;i<INTENTS.length;i++){ if(INTENTS[i].k.some(function(k){return t.indexOf(k)>-1})) return INTENTS[i].a; }
+    return "Esa información no la tengo cargada, y prefiero no inventarte nada. Te paso con una persona del local para que te responda.";
+  }
+  function ask(q){
+    q=q.trim(); if(!q) return;
+    add(q,"me");
+    var typing=document.createElement("div"); typing.className="m bot"; typing.innerHTML='<span class="typing"><i></i><i></i><i></i></span>'; msgs.appendChild(typing); msgs.scrollTop=msgs.scrollHeight;
+    setTimeout(function(){typing.remove();add(answer(q),"bot")},700);
+  }
+  var CHIPS=["¿Qué horarios tienen?","¿Cuánto sale el taladro?","¿Hacen envíos?","¿Cómo puedo pagar?","¿Tienen herramientas eléctricas importadas?"];
+  var chips=document.getElementById("chips");
+  CHIPS.forEach(function(c){var b=document.createElement("button");b.type="button";b.className="chip";b.textContent=c;b.onclick=function(){ask(c)};chips.appendChild(b)});
+  document.getElementById("form").onsubmit=function(e){e.preventDefault();var i=document.getElementById("q");ask(i.value);i.value=""};
+  add("¡Hola! Soy el asistente de Ferretería Ejemplo. Preguntame lo que necesites o tocá una de las opciones de abajo.","bot");
+})();
+</script>
+</body>
+</html>

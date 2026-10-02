@@ -1,0 +1,252 @@
+<!doctype html>
+<html lang="es-AR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Demo: Agenda para consultorio | Visual Impacto</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@500;700;800&family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0A1128;--surface:#121C3A;--surface2:#18244A;--ink:#F4F6FB;--muted:#AEB8D3;--brand:#FF6A2B;--brand-ink:#0A1128;--sun:#FFD166;--line:#25325C;--chip:#1C2A55;--ok:#3DDC97;--pend:#FFD166;--done:#6B7799;
+  box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--bg:#0A1128}}
+:root[data-theme="dark"]{--bg:#0A1128}
+*,*::before,*::after{box-sizing:inherit}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Figtree",system-ui,-apple-system,"Segoe UI",sans-serif;font-size:1.03rem;line-height:1.5}
+h1,h2,h3{font-family:"Sora","Figtree",system-ui,sans-serif;margin:0;letter-spacing:-.02em;line-height:1.15}
+p{margin:0}
+button,input,select{font-family:inherit;font-size:1rem}
+:focus-visible{outline:3px solid var(--sun);outline-offset:2px;border-radius:8px}
+.wrap{max-width:1180px;margin:0 auto;padding:0 1.1rem}
+.top{display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:1rem 0;border-bottom:1px solid var(--line)}
+.top a{color:var(--muted);text-decoration:none;font-size:.95rem}
+.top a:hover{color:var(--ink)}
+.brand{font-family:"Sora",sans-serif;font-weight:800;font-size:1.15rem}
+.badge{background:var(--sun);color:var(--brand-ink);font-weight:700;font-size:.8rem;padding:.15rem .6rem;border-radius:999px;margin-left:.5rem;vertical-align:middle}
+.intro{padding:2.2rem 0 1.4rem}
+.intro h1{font-size:clamp(1.8rem,4.5vw,2.6rem);font-weight:800}
+.intro p{color:var(--muted);margin-top:.6rem;max-width:60ch}
+.bar{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:.8rem;margin-bottom:1rem}
+.nav{display:flex;align-items:center;gap:.5rem}
+.nav strong{min-width:12ch;text-align:center;font-family:"Sora",sans-serif}
+.icon{width:46px;height:46px;border-radius:50%;border:1.5px solid var(--line);background:transparent;color:var(--ink);cursor:pointer;font-size:1.2rem;font-weight:700}
+.icon:hover{border-color:var(--brand)}
+.legend{display:flex;gap:1rem;flex-wrap:wrap;color:var(--muted);font-size:.9rem}
+.legend span::before{content:"";display:inline-block;width:12px;height:12px;border-radius:3px;margin-right:.4rem;vertical-align:-1px;background:var(--c)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:.5rem;min-height:48px;padding:.7rem 1.3rem;border-radius:999px;font-weight:700;border:2px solid transparent;cursor:pointer;text-decoration:none}
+.btn-main{background:var(--brand);color:var(--brand-ink)}
+.btn-ghost{background:transparent;border-color:var(--line);color:var(--ink)}
+.btn-ghost:hover{border-color:var(--ink)}
+.main{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:1.2rem;align-items:start}
+@media (max-width:960px){.main{grid-template-columns:1fr}}
+.calwrap{background:var(--surface);border:1px solid var(--line);border-radius:22px;overflow-x:auto}
+.cal{display:grid;grid-template-columns:56px repeat(5,minmax(110px,1fr));min-width:640px}
+.dh{position:sticky;top:0;padding:.8rem .5rem;text-align:center;border-bottom:1px solid var(--line);background:var(--surface)}
+.dh b{display:block;font-family:"Sora",sans-serif;font-size:1.2rem}
+.dh span{color:var(--muted);font-size:.85rem}
+.dh.today b{color:var(--brand)}
+.hours{position:relative}
+.hours div{height:60px;color:var(--muted);font-size:.8rem;text-align:right;padding-right:.5rem;transform:translateY(-.55rem)}
+.col{position:relative;border-left:1px solid var(--line);background-image:linear-gradient(var(--line) 1px,transparent 1px);background-size:100% 60px}
+.ap{position:absolute;left:4px;right:4px;border-radius:10px;padding:.3rem .5rem;text-align:left;border:0;cursor:pointer;color:var(--brand-ink);font-size:.82rem;line-height:1.25;overflow:hidden;background:var(--c)}
+.ap b{display:block;font-size:.86rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ap.sel{outline:3px solid var(--ink);outline-offset:1px}
+.ap.done{color:var(--ink)}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:22px;padding:1.3rem}
+.panel h2{font-size:1.2rem;margin-bottom:.8rem}
+.panel .muted{color:var(--muted)}
+.det{display:grid;gap:.5rem}
+.det dl{display:grid;grid-template-columns:auto 1fr;gap:.35rem .9rem;margin:.4rem 0 0}
+.det dt{color:var(--muted)}
+.det dd{margin:0;font-weight:600}
+.det .actions{display:grid;gap:.5rem;margin-top:1rem}
+.status{display:inline-block;font-size:.82rem;font-weight:700;padding:.15rem .6rem;border-radius:999px;background:var(--c);color:var(--brand-ink)}
+.summ{display:grid;grid-template-columns:repeat(3,1fr);gap:.5rem;margin-bottom:1.2rem}
+.summ div{background:var(--surface2);border-radius:12px;padding:.6rem;text-align:center}
+.summ b{display:block;font-family:"Sora",sans-serif;font-size:1.4rem}
+.summ span{font-size:.8rem;color:var(--muted)}
+.toast{position:fixed;left:50%;bottom:calc(1.2rem + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:.8rem 1.2rem;border-radius:14px;font-weight:600;max-width:90vw;z-index:20}
+dialog{border:1px solid var(--line);border-radius:22px;background:var(--surface);color:var(--ink);padding:1.4rem;width:min(440px,92vw)}
+dialog::backdrop{background:rgba(5,9,22,.7)}
+dialog h2{font-size:1.3rem}
+label{display:block;font-weight:600;margin:.8rem 0 .3rem}
+input,select{width:100%;min-height:46px;padding:.6rem .8rem;border-radius:12px;border:1.5px solid var(--line);background:var(--surface2);color:var(--ink)}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:.6rem}
+.err{color:#FF8A8A;font-weight:600;margin-top:.6rem}
+.dact{display:flex;gap:.5rem;justify-content:flex-end;margin-top:1.2rem}
+.cta{margin:2.5rem 0 3rem;background:var(--brand);color:var(--brand-ink);border-radius:22px;padding:1.8rem;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:1rem}
+.cta h3{font-size:1.4rem}
+.cta p{margin-top:.3rem}
+.cta .btn{background:var(--brand-ink);color:var(--brand)}
+[hidden]{display:none!important}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top">
+    <span><span class="brand">Visual Impacto</span><span class="badge">Demo</span></span>
+    <a href="index.html">Volver a Visual Impacto</a>
+  </div>
+
+  <div class="intro">
+    <h1>Agenda para consultorio</h1>
+    <p>Así se ve la semana de un profesional: todos los turnos de un vistazo. Tocá un turno para ver el detalle, marcarlo como atendido o mandar un recordatorio. Pacientes y datos ficticios.</p>
+  </div>
+
+  <div class="bar">
+    <div class="nav">
+      <button class="icon" id="prev" aria-label="Semana anterior">‹</button>
+      <strong id="weekLabel"></strong>
+      <button class="icon" id="next" aria-label="Semana siguiente">›</button>
+    </div>
+    <div class="legend">
+      <span style="--c:var(--ok)">Confirmado</span>
+      <span style="--c:var(--pend)">A confirmar</span>
+      <span style="--c:var(--done)">Atendido</span>
+    </div>
+    <button class="btn btn-main" id="newBtn">Nuevo turno</button>
+  </div>
+
+  <div class="main">
+    <div class="calwrap"><div class="cal" id="cal"></div></div>
+    <aside class="panel">
+      <div class="summ" id="summ"></div>
+      <div id="detail"><h2>Detalle del turno</h2><p class="muted">Tocá un turno en la agenda para ver los datos del paciente.</p></div>
+    </aside>
+  </div>
+
+  <div class="cta">
+    <div><h3>¿Querés esta agenda para tu consultorio?</h3><p>La adapto a tus horarios, prestaciones y forma de trabajar.</p></div>
+    <a class="btn" href="https://wa.me/5493541600329?text=Hola%20Mey!%20Vi%20la%20demo%20de%20la%20agenda%20para%20consultorio%20y%20me%20interesa." target="_blank" rel="noopener">Quiero esto para mi consultorio</a>
+  </div>
+</div>
+
+<dialog id="dlg">
+  <h2>Nuevo turno</h2>
+  <label for="fName">Paciente</label><input id="fName" type="text" placeholder="Nombre y apellido">
+  <label for="fPhone">Celular</label><input id="fPhone" type="tel" placeholder="Ej: 351 555 1234">
+  <div class="row">
+    <div><label for="fDay">Día</label><select id="fDay"></select></div>
+    <div><label for="fHour">Hora</label><select id="fHour"></select></div>
+  </div>
+  <div class="row">
+    <div><label for="fDur">Duración</label><select id="fDur"><option value="30">30 min</option><option value="45">45 min</option><option value="60">60 min</option></select></div>
+    <div><label for="fWhy">Motivo</label><select id="fWhy"></select></div>
+  </div>
+  <p class="err" id="fErr" hidden></p>
+  <div class="dact"><button class="btn btn-ghost" id="cancelDlg">Cancelar</button><button class="btn btn-main" id="saveDlg">Guardar turno</button></div>
+</dialog>
+
+<div class="toast" id="toast" hidden role="status"></div>
+
+<script>
+(function(){
+  var START=480, END=1140, PX=1; // 8 a 19 hs, 1px por minuto
+  var DOW=["Lun","Mar","Mié","Jue","Vie"];
+  var MONTHS=["ene","feb","mar","abr","may","jun","jul","ago","sep","oct","nov","dic"];
+  var NAMES=["Ana Torres","Diego Ruiz","Carla Méndez","Pablo Sosa","Romina Vega","Lucas Herrera","María Paz Gil","Nicolás Ríos","Paula Castro","Federico Luna","Inés Molina","Gonzalo Peralta","Elena Suárez","Bruno Acosta"];
+  var WHY=["Control","Limpieza","Arreglo","Ortodoncia","Extracción","Blanqueamiento","Primera consulta"];
+  var hm=function(m){return String(Math.floor(m/60)).padStart(2,"0")+":"+String(m%60).padStart(2,"0")};
+  var esc=function(t){var d=document.createElement("div");d.textContent=t;return d.innerHTML};
+
+  var today=new Date(); today.setHours(0,0,0,0);
+  function monday(off){var d=new Date(today);var dw=(d.getDay()+6)%7;d.setDate(d.getDate()-dw+off*7);return d}
+  function rng(seed){return function(){seed|=0;seed=seed+0x6D2B79F5|0;var t=Math.imul(seed^seed>>>15,1|seed);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
+
+  var weeks={}, off=0, selId=null, nextId=1;
+  function weekData(o){
+    if(weeks[o]) return weeks[o];
+    var r=rng(1000+o*97), list=[], mon=monday(o);
+    for(var d=0;d<5;d++){
+      var date=new Date(mon); date.setDate(mon.getDate()+d);
+      var t=START+30*Math.floor(r()*2);
+      while(t<END-30){
+        if(r()<0.72){
+          var dur=[30,30,45,60][Math.floor(r()*4)];
+          if(t+dur>END) break;
+          var past=date<today, st=past?"done":(r()<0.7?"ok":"pend");
+          list.push({id:nextId++,day:d,start:t,dur:dur,name:NAMES[Math.floor(r()*NAMES.length)],why:WHY[Math.floor(r()*WHY.length)],phone:"351 "+(400+Math.floor(r()*500))+" "+(1000+Math.floor(r()*8999)),st:st});
+          t+=dur;
+        } else t+=30;
+        if(t>=720&&t<840) t=840; // almuerzo de 12 a 14
+      }
+    }
+    weeks[o]=list; return list;
+  }
+  function dayDate(d){var x=monday(off);x.setDate(x.getDate()+d);return x}
+  var COLORS={ok:"var(--ok)",pend:"var(--pend)",done:"var(--done)"};
+  var LABEL={ok:"Confirmado",pend:"A confirmar",done:"Atendido"};
+
+  function render(){
+    var list=weekData(off), cal=document.getElementById("cal"), h='<div class="dh"></div>';
+    for(var d=0;d<5;d++){var dd=dayDate(d);h+='<div class="dh'+(dd.getTime()===today.getTime()?' today':'')+'"><span>'+DOW[d]+'</span><b>'+dd.getDate()+'</b></div>'}
+    h+='<div class="hours">'; for(var m=START;m<END;m+=60) h+='<div>'+hm(m)+'</div>'; h+='</div>';
+    for(d=0;d<5;d++){
+      h+='<div class="col" style="height:'+((END-START)*PX)+'px">';
+      list.filter(function(a){return a.day===d}).forEach(function(a){
+        h+='<button class="ap '+a.st+(a.id===selId?' sel':'')+'" data-id="'+a.id+'" style="top:'+((a.start-START)*PX)+'px;height:'+(a.dur*PX-3)+'px;--c:'+COLORS[a.st]+'"><b>'+esc(a.name)+'</b>'+(a.dur>=45?hm(a.start)+' · '+esc(a.why):hm(a.start))+'</button>';
+      });
+      h+='</div>';
+    }
+    cal.innerHTML=h;
+    cal.querySelectorAll("[data-id]").forEach(function(b){b.onclick=function(){selId=+b.dataset.id;render()}});
+    var a=dayDate(0), z=dayDate(4);
+    document.getElementById("weekLabel").textContent=a.getDate()+" "+MONTHS[a.getMonth()]+" al "+z.getDate()+" "+MONTHS[z.getMonth()];
+    var c={ok:0,pend:0,done:0}; list.forEach(function(x){c[x.st]++});
+    document.getElementById("summ").innerHTML='<div><b>'+list.length+'</b><span>turnos</span></div><div><b>'+c.pend+'</b><span>a confirmar</span></div><div><b>'+c.done+'</b><span>atendidos</span></div>';
+    renderDetail();
+  }
+
+  function renderDetail(){
+    var el=document.getElementById("detail"), a=weekData(off).find(function(x){return x.id===selId});
+    if(!a){el.innerHTML='<h2>Detalle del turno</h2><p class="muted">Tocá un turno en la agenda para ver los datos del paciente.</p>';return}
+    var dd=dayDate(a.day);
+    el.innerHTML='<div class="det"><h2>'+esc(a.name)+'</h2><span><span class="status" style="--c:'+COLORS[a.st]+'">'+LABEL[a.st]+'</span></span>'+
+      '<dl><dt>Día</dt><dd>'+DOW[a.day]+' '+dd.getDate()+' de '+MONTHS[dd.getMonth()]+'</dd><dt>Hora</dt><dd>'+hm(a.start)+' a '+hm(a.start+a.dur)+'</dd><dt>Motivo</dt><dd>'+esc(a.why)+'</dd><dt>Celular</dt><dd>'+esc(a.phone)+'</dd></dl>'+
+      '<div class="actions">'+
+      (a.st!=="done"?'<button class="btn btn-main" id="aDone">Marcar como atendido</button>':'')+
+      (a.st==="pend"?'<button class="btn btn-ghost" id="aConf">Marcar como confirmado</button>':'')+
+      (a.st!=="done"?'<button class="btn btn-ghost" id="aRem">Enviar recordatorio</button>':'')+
+      '<button class="btn btn-ghost" id="aDel">Cancelar turno</button></div></div>';
+    var b;
+    if(b=document.getElementById("aDone")) b.onclick=function(){a.st="done";render();toast("Turno marcado como atendido.")};
+    if(b=document.getElementById("aConf")) b.onclick=function(){a.st="ok";render();toast("Turno confirmado.")};
+    if(b=document.getElementById("aRem")) b.onclick=function(){toast("En el sistema real, a "+a.name.split(" ")[0]+" le llegaría un recordatorio por WhatsApp.")};
+    document.getElementById("aDel").onclick=function(){var l=weekData(off);l.splice(l.indexOf(a),1);selId=null;render();toast("Turno cancelado. El horario quedó libre.")};
+  }
+
+  var tt;
+  function toast(t){var el=document.getElementById("toast");el.textContent=t;el.hidden=false;clearTimeout(tt);tt=setTimeout(function(){el.hidden=true},2800)}
+
+  document.getElementById("prev").onclick=function(){off--;selId=null;render()};
+  document.getElementById("next").onclick=function(){off++;selId=null;render()};
+
+  // Nuevo turno
+  var dlg=document.getElementById("dlg");
+  var fHour=document.getElementById("fHour"), fWhy=document.getElementById("fWhy"), fDay=document.getElementById("fDay");
+  for(var m=START;m<END;m+=15){ if(m>=720&&m<840) continue; fHour.add(new Option(hm(m),m)); }
+  WHY.forEach(function(w){fWhy.add(new Option(w,w))});
+  document.getElementById("newBtn").onclick=function(){
+    fDay.innerHTML=""; for(var d=0;d<5;d++){var dd=dayDate(d);fDay.add(new Option(DOW[d]+" "+dd.getDate(),d))}
+    document.getElementById("fErr").hidden=true; document.getElementById("fName").value=""; document.getElementById("fPhone").value="";
+    dlg.showModal();
+  };
+  document.getElementById("cancelDlg").onclick=function(){dlg.close()};
+  document.getElementById("saveDlg").onclick=function(){
+    var name=document.getElementById("fName").value.trim(), phone=document.getElementById("fPhone").value.trim();
+    var day=+fDay.value, start=+fHour.value, dur=+document.getElementById("fDur").value, err=document.getElementById("fErr");
+    if(!name){err.textContent="Escribí el nombre del paciente.";err.hidden=false;return}
+    if(start+dur>END){err.textContent="El turno termina después del horario de atención.";err.hidden=false;return}
+    var list=weekData(off);
+    if(list.some(function(a){return a.day===day&&start<a.start+a.dur&&a.start<start+dur})){err.textContent="Ese horario se superpone con otro turno. Elegí otro.";err.hidden=false;return}
+    var a={id:nextId++,day:day,start:start,dur:dur,name:name,why:fWhy.value,phone:phone||"Sin cargar",st:"pend"};
+    list.push(a); selId=a.id; dlg.close(); render(); toast("Turno guardado.");
+  };
+
+  render();
+})();
+</script>
+</body>
+</html>
