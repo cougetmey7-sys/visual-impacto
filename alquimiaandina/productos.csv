@@ -1,0 +1,22 @@
+categoria,nombre,descripcion,presentacion,precio,foto,disponible,destacado
+Ungüentos,Ungüento puro de caléndula,"Nutrición y reparación intensa para piel seca, sensible o agrietada. Calma irritaciones, suaviza asperezas y ayuda a restaurar la piel castigada por el frío y el viento. Oleato de caléndula, cera de abejas y vitamina E.",50 g,,img/unguento-calendula.jpg,si,si
+Ungüentos,Ungüento Paramela & Lavanda,"Alivio muscular y relajación. Activa la circulación y calma tensiones provocadas por el frío o el estrés. Oleato de paramela y lavanda, cera de abejas y vitamina E. Ideal para el descanso.",50 g,,img/unguento-paramela-lavanda.jpg,si,
+Ungüentos,"Ungüento Jarilla, Clavo & Caléndula","Alivio profundo y desinflamante. Brinda calor local y alivia dolores musculares, articulares y contracturas. Masajear en forma circular en la zona con molestia.",50 g,,img/unguento-jarilla.jpg,si,
+Ungüentos,Ungüento de Rescate,"Cannabis, jarilla y paramela. Uso local para dolores musculares, articulares y contracturas; favorece la circulación. Aceite herbal y cera de abejas.",60 g,,img/unguento-rescate.jpg,si,si
+Ungüentos,Ungüento de Hipérico,"Regenerador cutáneo: calma irritaciones, favorece la regeneración y suaviza la piel. Útil en golpes y quemaduras leves. Evitar el sol después de aplicarlo (posible fotosensibilidad).",20 g,,img/unguento-hiperico.jpg,si,
+Ungüentos,Yuyoporub,"Bálsamo herbal respiratorio con tomillo, eucalipto, menta, alcanfor y cera de abejas. Brinda sensación de frescura, despeja y reconforta el pecho.",20 g,,img/yuyoporub.jpg,si,si
+Ungüentos,Bálsamo de Montaña Batido,Crema batida de sebo bovino purificado con caléndula y lavanda. Nutrición profunda y máxima humectación para pieles agrietadas o muy secas frente al clima adverso.,60 g,,img/balsamo-montana.jpg,si,
+Labios,Bálsamo labial sólido,Protección invernal para labios. Hecho en Esquel.,8 g,,img/balsamo-labial.jpg,si,
+Labios,Elixir labial roll-on,"Nutre, calma y repara los labios resecos por el frío. Aceite de almendras, aceites esenciales y vitamina E.",Roll-on,,img/elixir-labial.jpg,si,
+Óleos,Óleo de caléndula,"Caléndula macerada en aceite de almendras. Para cuidar la barrera de la piel, después de tatuajes o quemaduras leves y uso diario en piel sensible.",,,img/oleo-calendula.jpg,si,
+Óleos,Óleo de lavanda,"Lavanda macerada en aceite de coco. Calma, ayuda a reducir el estrés y favorece el sueño.",,,img/oleo-lavanda.jpg,si,
+Óleos,Óleo de paramela,"Paramela (Adesmia boronioides) macerada en aceite de coco, para el cuidado capilar y corporal.",9 g,,img/oleo-paramela.jpg,si,
+Tinturas madre,Tintura madre de paramela,"Planta nativa de la Patagonia, de aroma intenso. Tradicionalmente usada para acompañar el sistema respiratorio en procesos de congestión. Evitar en embarazo y lactancia.",Gotero,,img/tintura-paramela.jpg,si,
+Tinturas madre,Tintura madre de palo piche,"Fabiana imbricata, planta patagónica tradicionalmente usada como depurativa, digestiva y diurética. Consultá a Flor por el modo de uso.",30 cc,,img/tintura-palo-piche.jpg,si,
+Shampoo sólido,Shampoo sólido Bruma de la Cordillera,"Shampoo sólido artesanal, sin envase plástico. Consultá a Flor por sus ingredientes y tipo de cabello.",,,img/shampoo-bruma.jpg,si,
+Shampoo sólido,Shampoo sólido Santuario,"Shampoo sólido artesanal, sin envase plástico. Consultá a Flor por sus ingredientes y tipo de cabello.",,,img/shampoo-santuario.jpg,si,
+Armonizadores,Spray áurico,"Protección, limpieza y vitalidad. Spray con laurel, clavo de olor, canela, pachulí y limón para limpiar y armonizar el campo energético.",100 ml,,img/spray-aurico.jpg,si,si
+Armonizadores,Flores de lavanda patagónica,"Lavanda silvestre de cosecha manual en Esquel, en bolsita de lienzo. Para el descanso, baños de inmersión y para armonizar espacios. Sin aditivos ni fragancias sintéticas.",30 g,,img/lavanda.jpg,si,
+Despensa patagónica,Hojas de laurel seco,"Hojas seleccionadas para uso culinario, medicinal y para sahumar. Hechas a mano en Esquel.",50 g,,img/laurel.jpg,si,
+Despensa patagónica,Hongos de pino seleccionados,Recolección consciente en Esquel. Fileteados a mano y sin piel. Se rehidratan en agua tibia o caldo en 20 minutos.,40 g,,img/hongos-pino.jpg,si,
+Despensa patagónica,Vinagre de manzana vivo,"Orgánico y artesanal, sin pasteurizar ni filtrar: conserva «la madre». Para aderezar o como enjuague capilar natural. Manzanas de la Comarca.",250 ml,,img/vinagre-manzana.jpg,si,
